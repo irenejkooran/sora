@@ -1,9 +1,9 @@
-<?php                                                                                     
-                                                                                      
+<?php                                         
+namespace Sora\Models;
+require_once __DIR__."../../vendor/autoload.php"; 
 /** User class for handling user-related operations                                       
  */
 
-namespace Sora\Models;
 class User {  
 
 		/** @var mysqli $db Database connection object */                                                  
@@ -12,9 +12,8 @@ class User {
 		/**                                                                                     
 		* Constructor for User Class                                                                                                                                                 
 		* @param mysqli $db The database connection object 
-		* @return void                                    
 		*/                                                                                     
-		public function __construct(mysqli $db ): void {                                                        
+		public function __construct(mysqli $db ) {                                                        
 		$this->db = $db;                                                                        
 		} 
 
@@ -37,7 +36,7 @@ class User {
 				];
 			}
 			$username  = $data['username'];
-			$email = $data['email']
+			$email = $data['email'];
 			$firstName = $data['firstName'];
 			$lastName = $data['lastName'];
 			$password = $data['password'];
@@ -100,40 +99,15 @@ class User {
 			 else {
 				 return [
 					 'success' => false,
-					 'message' => 'Invalid username or password';
+					 'message' => 'Invalid username or password',
 				 ];
 			 }
 		                                                               
 		}
 
 
-    /**
- 		 * Logout the user
- 		 * @return void
- 		 */
-		public function logout(): void {
-			if (session_status() == PHP_SESSION_NONE) {
-				session_start();
-
-			}
-			// unset the session variables
-
-			$_SESSION = array();
-			session_destroy();
-		}
     
 
-		/**
- 		 * Check if a user is logged in
- 		 * @return bool
- 		 */
-		public function isLoggedIn(): bool {
-
-			if (session_status() == PHP_SESSION_NONE) {
-				session_start();
-			}
-			return isset($_SESSION['user_id']);
-		}
 
 		/**                                                                                     
 		* Find a user by email address                                                         
@@ -141,7 +115,17 @@ class User {
 		* return string[]|null An array of user data if found, or null if not found.              
 		*/                                                                                     
 		public function findUserByEmail(string $email): array|null {                                               
-		//unimplemented                                                                       
+			$stmt = $this->db->prepare("select * from users where email=? limit 1"); 
+      $stmt->bind_param("s", $email);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      if($result->num_rows() === 0) {
+				return null;
+			}
+			else {
+				$user = $result->fetch_assoc();
+				return $user;
+			}
 		}                                                                                       
 	
 		/**                                                                                     
@@ -169,6 +153,5 @@ class User {
 
 }                                                                                         
                                                                                       
-}                                                                                         
                                                                                       
 ?>

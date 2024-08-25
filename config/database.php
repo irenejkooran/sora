@@ -3,9 +3,9 @@
 
 
 namespace Sora\Config;
-
+/** Database class to return a database object */
 class Database {
-      public static function getConnection() {
+      public static function getConnection(): mysqli {
 
         $env = parse_ini_file("./.env");
         $username = $env['USERNAME'];
@@ -13,11 +13,16 @@ class Database {
         $hostname = $env['HOSTNAME'];
         $database = $env['DATABASE'];
 
+
+        /**
+         * @var mysqli $mysqli object to be returned
+         *
+         */
         $mysqli = new \mysqli(
-            $env['host'],     // Database host (e.g., 'localhost')
-            $env['username'], // Database username
-            $env['password'], // Database password
-            $env['database']  // Database name
+            $hostname,     // Database host (e.g., 'localhost')
+            $username, // Database username
+            $passwd, // Database password
+            $database  // Database name
         );
 
         if ($mysqli->connect_error) {

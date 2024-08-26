@@ -33,6 +33,7 @@ class User {
 				return [
 					'success' => 'false',
 					'error'   => $validatedResult['error'],
+					'user' => null
 				];
 			}
 			$username  = $data['username'];
@@ -42,19 +43,26 @@ class User {
 			$password = $data['password'];
 			$hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-			$stmt = $this->db->prepare("insert into user('firstname', 'lastname', 'user', 'email', 'password') 
+			$stmt = $this->db->prepare("insert into users('firstname', 'lastname', 'username', 'email', 'password') 
 				                          values(?,?,?,?,?)");
 			$stmt->bind_param("sssss", $firstName, $lastName, $username, $email, $hashed_password);
 			if($stmt->execute()){
+				$query = $this->db->prepare("select id from users where username = ?");
+				$query->bind_param("s", $username);
+				$query->execute();
+				$result = $query->get_result();
+				$user = $result->fetch_assoc();
 				return [
 					'success' => true,
 					'error'   => null,
+					'user' => $user,
 				];
 			}
 			else {
 				return [
 					'success' => false,
 					'error'   => ["cannot register user try again later."],
+					'user' => null
 				];
 			}
 
@@ -67,8 +75,9 @@ class User {
 		* @return string[] An array of user data if login is successful or null if it fails.
 		* Expected keys: 'success' (bool),
 		*                 'message' (string) - Login status message. 
+		*                 'user'  (array) - user details.
 		*/                                                                                     
-		public function login(string $username, string $password): ?array { 
+		public function authenticate(string $username, string $password): ?array { 
        $stmt = $this->db->prepare("SELECT id, username, password FROM users where username = ?");
        $stmt->bind_param("s", $username);     
  			 $stmt->execute();
@@ -77,7 +86,7 @@ class User {
  			 if ($result->num_rows() === 0) {
 				 return [
 					 'success' => false,
-					 'message' => 'Invalid username or password',
+					 'message' => 'INVALID_DETAILS_ERROR',
 				 ];
 			 } 
 
@@ -85,21 +94,17 @@ class User {
 
 			 if(password_verify($password, $user['password'])) {
 
-				 session_start();
-				 $_SESSION['user_id'] = $user['id'];
-				 $_SESSION['username'] = $user['username'];
-
-				 session_regenerate_id(true);
 				 return [
 					 'success' => true,
-					 'message' => 'Login Sucessful.',
+					 'message' => 'LOGIN_SUCCESSFUL',
+					 'user' => $user,
 				 ];
 				 
 			 }
 			 else {
 				 return [
 					 'success' => false,
-					 'message' => 'Invalid username or password',
+					 'message' => 'INVALID_PASSWORD_ERROR',
 				 ];
 			 }
 		                                                               
@@ -143,7 +148,6 @@ class User {
 			$firstName = $data['firstName'];
 			$lastName = $data['lastName'];
 			$password = $data['password'];
-			$confirmPassword = $data['confirmPassword'];
 			return [
 				'isValid' => true,
 				'error' => null

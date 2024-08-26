@@ -11,51 +11,24 @@ sora
 │   │   ├── imports.css
 │   │   └── styles.css
 │   └── index.php
+├── config
+│   ├── database.php
+│   ├── sample.php
+│   ├── sora.sql
+│   └── init.php
 ├── vendor
 ├── tests
 │   └── sample.php
-├── docs
-│   ├── generate_code.sh
-│   ├── js
-│   │   ├── search.js
-│   │   ├── template.js
-│   │   └── searchIndex.js
-│   ├── indices
-│   │   └── files.html
-│   ├── classes
-│   │   └── User.html
-│   ├── files
-│   │   └── src-models-user.html
-│   ├── namespaces
-│   │   └── default.html
-│   ├── index.html
-│   ├── packages
-│   │   ├── default.html
-│   │   └── Application.html
-│   ├── css
-│   │   ├── normalize.css
-│   │   ├── base.css
-│   │   └── template.css
-│   ├── reports
-│   │   ├── markers.html
-│   │   ├── errors.html
-│   │   └── deprecated.html
-│   └── graphs
-│       └── classes.html
-├── composer.lock
 ├── src
 │   ├── views
 │   │   └── sample.php
+│   ├── core
+│   │   └── application.php
 │   ├── models
-│   │   ├── user.php
-│   │   └── user.php.orig
-│   ├── config
-│   │   ├── database.php
-│   │   ├── sample.php
-│   │   ├── sora.sql
-│   │   └── init.php
+│   │   └── user.php
 │   ├── controllers
-│   │   └── sample.php
+│   │   ├── sample.php
+│   │   └── user.php
 │   └── helpers
 │       └── sample.php
 ├── composer.json
@@ -77,367 +50,75 @@ sora
 
 ```````php
 <?php 
-require_once "../src/config/init.php";
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/styles.css">
-    <title>SORA</title>
-</head>
-<body>
-    <nav>SORA</nav>
-    <section>
-        <div>
-        <form action="" class="login">
-            <input type="text">
-            <input type="text">
-            <button>Log in</button>
-        </form>
-       </div>
-       <div>
-        <form action="" class="signup">
-            <input type="text">
-            <input type="text">
-            <input type="email">
-            <input type="passemail">
-            <input type="password">
-            <button>Sign up</button>
-        </form>
-       </div>
+require_once "../vendor/autoload.php";
 
-    </section>
-</body>
-</html>
+
+use Sora\Core\Application;
+use Sora\Controllers\UserController;
+use Sora\Controllers\HomeController;
+
+
+$app = new Sora\Core\Application();
+
+$app->router->get('/', [HomeController::class, 'index']);
+$app->router->get('/login', [UserController::class, 'login']);
+$app->router->post('/login', [UserController::class, 'login']);
+$app->router->get('/register', [UserController::class, 'register']);
+$app->router->post('/register', [UserController::class, 'register']);
+$app->router->get('/logout', [UserController::class, 'logout']);
+
+$app->run();
+
+
+ 
+?>
+
 
 ```````
 
-`/home/ramees/progs/php/sora/src/models/user.php`:
-
-```````php
-<?php                                                                                     
-                                                                                      
-/** User class for handling user-related operations                                       
-*/                                                                                       
-class User {  
-
-		/** @var mysqli $db Database connection object */                                                  
-	  private $db;    
-
-		/**                                                                                     
-		* Constructor for User Class                                                                                                                                                 
-		* @param mysqli $db The database connection object 
-		* @return void                                    
-		*/                                                                                     
-		public function __construct(mysqli $db ): void {                                                        
-		$this->db = $db;                                                                        
-		} 
-
-		/**                                                                                     
-		* Register a new user                                                                                                                                                     
-		* @param string[] $data An associative array containing user registration data.           
-		*                     Expected keys: 'firstName', 'LastName',        
-		*                                     'username', 'email',           
-		*                                     'password', 'confirmPassword'.                                                                                                                   
-		* @return (bool|string[]) An associative array with keys:                                        
-		*             'success' (bool) - Whether the registration was successful.              
-		*             'error' (string[])  - Any error messages if registration failed.            
-		*/                                                                                     
-		public function register(array $data): array {              
-      $validatedResult = validateUserRegistration($data);
-      if (!$validatedResult['isValid']) {
-				return [
-					'success' => 'false',
-					'error'   => $validatedResult['error'],
-				];
-			}
-			$username  = $data['username'];
-			$email = $data['email']
-			$firstName = $data['firstName'];
-			$lastName = $data['lastName'];
-			$password = $data['password'];
-			$hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-			$stmt = $this->db->prepare("insert into user('firstname', 'lastname', 'user', 'email', 'password') 
-				                          values(?,?,?,?,?)");
-			$stmt->bind_param("sssss", $firstName, $lastName, $username, $email, $hashed_password);
-			if($stmt->execute()){
-				return [
-					'success' => true,
-					'error'   => null,
-				];
-			}
-			else {
-				return [
-					'success' => false,
-					'error'   => ["cannot register user try again later."],
-				];
-			}
-
-		}                                                                                       
-
-		/**                                                                                     
-		* Authenticate a user                                                                  
-		* @param string $username The username of the user                                     
-		* @param string $password The 	password of the user                                    
-		* @return string[] An array of user data if login is successful or null if it fails.
-		* Expected keys: 'success' (bool),
-		*                 'message' (string) - Login status message. 
-		*/                                                                                     
-		public function login(string $username, string $password): ?array { 
-       $stmt = $this->db->prepare("SELECT id, username, password FROM users where username = ?");
-       $stmt->bind_param("s", $username);     
- 			 $stmt->execute();
- 			 $result = $stmt->get_result();
-
- 			 if ($result->num_rows() === 0) {
-				 return [
-					 'success' => false,
-					 'message' => 'Invalid username or password',
-				 ];
-			 } 
-
-			 $user = result->fetch_assoc();
-
-			 if(password_verify($password, $user['password'])) {
-
-				 session_start();
-				 $_SESSION['user_id'] = $user['id'];
-				 $_SESSION['username'] = $user['username'];
-
-				 session_regenerate_id(true);
-				 return [
-					 'success' => true,
-					 'message' => 'Login Sucessful.',
-				 ];
-				 
-			 }
-			 else {
-				 return [
-					 'success' => false,
-					 'message' => 'Invalid username or password';
-				 ];
-			 }
-		                                                               
-		}
-
-
-    /**
- 		 * Logout the user
- 		 * @return void
- 		 */
-		public function logout(): void {
-			if (session_status() == PHP_SESSION_NONE) {
-				session_start();
-
-			}
-			// unset the session variables
-
-			$_SESSION = array();
-			session_destroy();
-		}
-    
-
-		/**
- 		 * Check if a user is logged in
- 		 * @return bool
- 		 */
-		public function isLoggedIn(): bool {
-
-			if (session_status() == PHP_SESSION_NONE) {
-				session_start();
-			}
-			return isset($_SESSION['user_id']);
-		}
-
-		/**                                                                                     
-		* Find a user by email address                                                         
-		* @param string $email email address to search for                                     
-		* return string[]|null An array of user data if found, or null if not found.              
-		*/                                                                                     
-		public function findUserByEmail(string $email): array|null {                                               
-		//unimplemented                                                                       
-		}                                                                                       
-	
-		/**                                                                                     
-		* validate user registration data.                                                     
-		* @param string[] $data An associative array containing user registration data.           
-		*                    Expected keys: 'firstName', 'LastName',         
-		*                                    'username', 'email' ,            
-		*                                     'password', 'confirmPassword'.                             
-		* @return (bool|string[])[] An associative array with keys:                                        
-		*               'isValid' (bool) - Whether the data is valid.                          
-		*                'error' (?array) - Any validation error messages.                      
-		*/                                                                                     
-		private function validateUserRegistration(array $data): array {                                
-			$username = $data['username'];
-			$firstName = $data['firstName'];
-			$lastName = $data['lastName'];
-			$password = $data['password'];
-			$confirmPassword = $data['confirmPassword'];
-			return [
-				'isValid' => true,
-				'error' => null
-			];
-
-		} 
-
-}                                                                                         
-                                                                                      
-}                                                                                         
-                                                                                      
-?>
-
-```````
-
-`/home/ramees/progs/php/sora/src/models/user.php.orig`:
-
-```````orig
-<?php                                                                                     
-                                                                                      
-/** User class for handling user-related operations                                       
-*/                                                                                       
-class User {  
-
-		/** @var mysqli $db Database connection object */                                                  
-	  private $db;    
-
-		/**                                                                                     
-		* Constructor for User Class                                                                                                                                                 
-		* @param mysqli $db The database connection object 
-		* @return void                                    
-		*/                                                                                     
-<<<<<<< HEAD
-<<<<<<< HEAD
-		public __construct(mysqli $db) {                                                        
-=======
-		public function __construct(mysqli $db ) {                                                        
->>>>>>> 9fd9574 (fix: add documentation)
-=======
-		public function __construct(mysqli $db ): void {                                                        
->>>>>>> aed04be (fix: implement register function)
-		$this->db = $db;                                                                        
-		} 
-
-		/**                                                                                     
-		* Register a new user                                                                                                                                                     
-		* @param string[] $data An associative array containing user registration data.           
-		*                     Expected keys: 'firstName', 'LastName',        
-		*                                     'username', 'email',           
-		*                                     'password', 'confirmPassword'.                                                                                                                   
-		* @return (bool|string[]) An associative array with keys:                                        
-		*             'success' (bool) - Whether the registration was successful.              
-		*             'error' (string[])  - Any error messages if registration failed.            
-		*/                                                                                     
-		public function register(array $data): array {              
-      $validatedResult = validateUserRegistration($data);
-      if (!$validatedResult['isValid']) {
-				return [
-					'success' => 'false',
-					'error'   => $validatedResult['error'],
-				];
-			}
-			$username  = $data['username'];
-			$email = $data['email']
-			$firstName = $data['firstName'];
-			$lastName = $data['lastName'];
-			$password = $data['password'];
-			$hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-			$stmt = $this->db->prepare("insert into user('firstname', 'lastname', 'user', 'email', 'password') 
-				                          values(?,?,?,?,?)");
-			$stmt->bind_param("sssss", $firstName, $lastName, $username, $email, $hashed_password);
-			if($stmt->execute()){
-				return [
-					'success' => true,
-					'error'   => null,
-				];
-			}
-			else {
-				return [
-					'success' => false,
-					'error'   => ["cannot register user try again later."],
-			}
-
-		}                                                                                       
-
-		/**                                                                                     
-		* Authenticate a user                                                                  
-		* @param string $username The username of the user                                     
-		* @param string $password The 	password of the user                                    
-		* @return string[]|null An array of user data if login is successful or null if it fails. 
-		*/                                                                                     
-		public function login(string $username, string $password): ?array {                                   
-		//unimplemented                                                                       
-		}
-
-		/**                                                                                     
-		* Find a user by email address                                                         
-		* @param string $email email address to search for                                     
-		* return string[]|null An array of user data if found, or null if not found.              
-		*/                                                                                     
-		public function findUserByEmail(string $email): array|null {                                               
-		//unimplemented                                                                       
-		}                                                                                       
-	
-		/**                                                                                     
-		* validate user registration data.                                                     
-		* @param string[] $data An associative array containing user registration data.           
-		*                    Expected keys: 'firstName', 'LastName',         
-		*                                    'username', 'email' ,            
-		*                                     'password', 'confirmPassword'.                             
-		* @return (bool|string[])[] An associative array with keys:                                        
-		*               'isValid' (bool) - Whether the data is valid.                          
-		*                'error' (array) - Any validation error messages.                      
-		*/                                                                                     
-		private function validateUserRegistration(array $data): array {                                
-			$username = $data['username'];
-			$firstName = $data['firstName'];
-			$lastName = $data['lastName'];
-			$password = $data['password'];
-			$confirmPassword = $data['confirmPassword'];
-
-		} 
-<<<<<<< HEAD
-
-}                                                                                         
-                                                                                      
-=======
->>>>>>> 9fd9574 (fix: add documentation)
-
-}                                                                                         
-                                                                                      
-?>
-
-```````
-
-`/home/ramees/progs/php/sora/src/config/database.php`:
+`/home/ramees/progs/php/sora/config/database.php`:
 
 ```````php
 <?php
 
 
-$env = parse_ini_file("../.env");
 
-$username = $env['USERNAME'];
-$passwd = $env['PASSWORD'];
-$hostname = $env['HOSTNAME'];
-$database = $env['DATABASE'];
+namespace Sora\Config;
+/** Database class to return a database object */
+class Database {
+      public static function getConnection(): mysqli {
 
-$mysqli = new mysqli($hostname, $username, $passwd, $database);
+        $env = parse_ini_file("./.env");
+        $username = $env['USERNAME'];
+        $passwd = $env['PASSWORD'];
+        $hostname = $env['HOSTNAME'];
+        $database = $env['DATABASE'];
 
-if ($mysqli->connect_error) {
-  die("Connection failed ". $mysqli->connect_error);
+
+        /**
+         * @var mysqli $mysqli object to be returned
+         *
+         */
+        $mysqli = new \mysqli(
+            $hostname,     // Database host (e.g., 'localhost')
+            $username, // Database username
+            $passwd, // Database password
+            $database  // Database name
+        );
+
+        if ($mysqli->connect_error) {
+            die("Connection failed: " . $mysqli->connect_error);
+        }
+
+        return $mysqli;
+    }
 }
-
 
 ?>
 
 ```````
 
-`/home/ramees/progs/php/sora/src/config/sora.sql`:
+`/home/ramees/progs/php/sora/config/sora.sql`:
 
 ```````sql
 -- phpMyAdmin SQL Dump
@@ -646,7 +327,7 @@ COMMIT;
 
 ```````
 
-`/home/ramees/progs/php/sora/src/config/init.php`:
+`/home/ramees/progs/php/sora/config/init.php`:
 
 ```````php
 <?php
@@ -655,6 +336,260 @@ define("ROOT", __DIR__."/../../");
 define("APPROOT", __DIR__."/../../public/");
 
 ?>
+
+```````
+
+`/home/ramees/progs/php/sora/src/core/application.php`:
+
+```````php
+<?php
+
+namespace Sora\Core;
+
+class Application {
+  public $router;
+
+
+  public function __construct(){
+    $router = new router();
+  }
+
+  public function run(){
+    $this->router->dispatch();
+  }
+}
+?>
+
+```````
+
+`/home/ramees/progs/php/sora/src/models/user.php`:
+
+```````php
+<?php                                         
+namespace Sora\Models;
+require_once __DIR__."../../vendor/autoload.php"; 
+/** User class for handling user-related operations                                       
+ */
+
+class User {  
+
+		/** @var mysqli $db Database connection object */                                                  
+	  private $db;    
+
+		/**                                                                                     
+		* Constructor for User Class                                                                                                                                                 
+		* @param mysqli $db The database connection object 
+		*/                                                                                     
+		public function __construct(mysqli $db ) {                                                        
+		$this->db = $db;                                                                        
+		} 
+
+		/**                                                                                     
+		* Register a new user                                                                                                                                                     
+		* @param string[] $data An associative array containing user registration data.           
+		*                     Expected keys: 'firstName', 'LastName',        
+		*                                     'username', 'email',           
+		*                                     'password', 'confirmPassword'.                                                                                                                   
+		* @return (bool|string[]) An associative array with keys:                                        
+		*             'success' (bool) - Whether the registration was successful.              
+		*             'error' (string[])  - Any error messages if registration failed.            
+		*/                                                                                     
+		public function register(array $data): array {              
+      $validatedResult = validateUserRegistration($data);
+      if (!$validatedResult['isValid']) {
+				return [
+					'success' => 'false',
+					'error'   => $validatedResult['error'],
+					'user' => null
+				];
+			}
+			$username  = $data['username'];
+			$email = $data['email'];
+			$firstName = $data['firstName'];
+			$lastName = $data['lastName'];
+			$password = $data['password'];
+			$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+			$stmt = $this->db->prepare("insert into users('firstname', 'lastname', 'username', 'email', 'password') 
+				                          values(?,?,?,?,?)");
+			$stmt->bind_param("sssss", $firstName, $lastName, $username, $email, $hashed_password);
+			if($stmt->execute()){
+				$query = $this->db->prepare("select id from users where username = ?");
+				$query->bind_param("s", $username);
+				$query->execute();
+				$result = $query->get_result();
+				$user = $result->fetch_assoc();
+				return [
+					'success' => true,
+					'error'   => null,
+					'user' => $user,
+				];
+			}
+			else {
+				return [
+					'success' => false,
+					'error'   => ["cannot register user try again later."],
+					'user' => null
+				];
+			}
+
+		}                                                                                       
+
+		/**                                                                                     
+		* Authenticate a user                                                                  
+		* @param string $username The username of the user                                     
+		* @param string $password The 	password of the user                                    
+		* @return string[] An array of user data if login is successful or null if it fails.
+		* Expected keys: 'success' (bool),
+		*                 'message' (string) - Login status message. 
+		*                 'user'  (array) - user details.
+		*/                                                                                     
+		public function authenticate(string $username, string $password): ?array { 
+       $stmt = $this->db->prepare("SELECT id, username, password FROM users where username = ?");
+       $stmt->bind_param("s", $username);     
+ 			 $stmt->execute();
+ 			 $result = $stmt->get_result();
+
+ 			 if ($result->num_rows() === 0) {
+				 return [
+					 'success' => false,
+					 'message' => 'INVALID_DETAILS_ERROR',
+				 ];
+			 } 
+
+			 $user = result->fetch_assoc();
+
+			 if(password_verify($password, $user['password'])) {
+
+				 return [
+					 'success' => true,
+					 'message' => 'LOGIN_SUCCESSFUL',
+					 'user' => $user,
+				 ];
+				 
+			 }
+			 else {
+				 return [
+					 'success' => false,
+					 'message' => 'INVALID_PASSWORD_ERROR',
+				 ];
+			 }
+		                                                               
+		}
+
+
+    
+
+
+		/**                                                                                     
+		* Find a user by email address                                                         
+		* @param string $email email address to search for                                     
+		* return string[]|null An array of user data if found, or null if not found.              
+		*/                                                                                     
+		public function findUserByEmail(string $email): array|null {                                               
+			$stmt = $this->db->prepare("select * from users where email=? limit 1"); 
+      $stmt->bind_param("s", $email);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      if($result->num_rows() === 0) {
+				return null;
+			}
+			else {
+				$user = $result->fetch_assoc();
+				return $user;
+			}
+		}                                                                                       
+	
+		/**                                                                                     
+		* validate user registration data.                                                     
+		* @param string[] $data An associative array containing user registration data.           
+		*                    Expected keys: 'firstName', 'LastName',         
+		*                                    'username', 'email' ,            
+		*                                     'password', 'confirmPassword'.                             
+		* @return (bool|string[])[] An associative array with keys:                                        
+		*               'isValid' (bool) - Whether the data is valid.                          
+		*                'error' (?array) - Any validation error messages.                      
+		*/                                                                                     
+		private function validateUserRegistration(array $data): array {                                
+			$username = $data['username'];
+			$firstName = $data['firstName'];
+			$lastName = $data['lastName'];
+			$password = $data['password'];
+			return [
+				'isValid' => true,
+				'error' => null
+			];
+
+		} 
+
+}                                                                                         
+                                                                                      
+                                                                                      
+?>
+
+```````
+
+`/home/ramees/progs/php/sora/src/controllers/user.php`:
+
+```````php
+<?php
+
+namespace Sora\Controllers;
+require_once __DIR__ . "../../vendor/autoload.php";
+
+
+/** Controller class for User Model
+ *
+ */
+class userController {
+
+  /**@var Sora\Models\User $userModel user model object
+   */
+  private $userModel;
+  
+  /**Constructor for User Controller
+   */
+
+  public function __construct() {
+  /** @var mysqli $db object returned from Sora\Config\Database::get_connection()
+   */
+  $db = Sora\Config\Database::get_connection();
+  $this->userModel = new Sora\Models\User($db);
+
+    
+  }
+
+  public function logout() {
+    $_SESSION = array();
+    session_destroy();
+    header('Location: index.php');
+  }
+
+  public function isLoggedin(): bool{
+    return isset($_SESSION['user_id']);
+  }
+
+
+  public function register(): array {
+    $response =  $userModel->register($_POST);
+    if($respone['success'] === true) {
+      $_SESSION['username'] = $_POST['username'];
+      $_SESSION['user_id'] = $response['user']['id'];
+      header('Location: home.php');
+    }
+    else{
+      $errors = $response['error'];
+      include 'views/register.php';
+    }
+  }
+
+  public function login() {
+    $username = $_POST['username'];
+    $passwd = $_POST['password'];
+    $this->userModel->authenticate($username, $password);
+  }
+
+}
 
 ```````
 

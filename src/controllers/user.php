@@ -20,18 +20,39 @@ class userController {
   /** @var mysqli $db object returned from Sora\Config\Database::get_connection()
    */
   $db = Sora\Config\Database::get_connection();
-  $this->userModel = Sora\Models\User($db);
+  $this->userModel = new Sora\Models\User($db);
 
     
   }
 
   public function logout() {
-//unimplemented
+    $_SESSION = array();
+    session_destroy();
+    header('Location: index.php');
   }
 
-  public function isLoggedin(){
-    //unimplemented``
+  public function isLoggedin(): bool{
+    return isset($_SESSION['user_id']);
   }
 
+
+  public function register(): array {
+    $response =  $userModel->register($_POST);
+    if($respone['success'] === true) {
+      $_SESSION['username'] = $_POST['username'];
+      $_SESSION['user_id'] = $response['user']['id'];
+      header('Location: home.php');
+    }
+    else{
+      $errors = $response['error'];
+      include 'views/register.php';
+    }
+  }
+
+  public function login() {
+    $username = $_POST['username'];
+    $passwd = $_POST['password'];
+    $this->userModel->authenticate($username, $password);
+  }
 
 }

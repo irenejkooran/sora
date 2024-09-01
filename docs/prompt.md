@@ -50,7 +50,7 @@ sora
 
 ```````php
 <?php 
-require_once "../vendor/autoload.php";
+require __DIR__."/../vendor/autoload.php";
 
 
 use Sora\Core\Application;
@@ -58,7 +58,7 @@ use Sora\Controllers\UserController;
 use Sora\Controllers\HomeController;
 
 
-$app = new Sora\Core\Application();
+$app = new Sora\Models/User();
 
 $app->router->get('/', [HomeController::class, 'index']);
 $app->router->get('/login', [UserController::class, 'login']);
@@ -589,6 +589,25 @@ class userController {
     $this->userModel->authenticate($username, $password);
   }
 
+}
+
+```````
+
+`/home/ramees/progs/php/sora/composer.json`:
+
+```````json
+{   "name": "7h3cyb3rm0nk/sora",
+    "description": "Micro blogging Social media platfrom for cs department U.C College",
+    "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "^11"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Sora\\": "/src/"
+        }
+    }
 }
 
 ```````

@@ -1,5 +1,5 @@
 <?php                                         
-namespace Sora\Models;
+// namespace Sora\Models;
 require_once __DIR__."../../vendor/autoload.php"; 
 /** User class for handling user-related operations                                       
  */

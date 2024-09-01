@@ -7,7 +7,7 @@ use Sora\Controllers\UserController;
 use Sora\Controllers\HomeController;
 
 
-$app = new Sora\Core\Application();
+$app = new Application();
 
 $app->router->get('/', [HomeController::class, 'index']);
 $app->router->get('/login', [UserController::class, 'login']);

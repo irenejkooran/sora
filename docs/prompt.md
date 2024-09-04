@@ -19,16 +19,18 @@ sora
 ├── vendor
 ├── tests
 │   └── sample.php
+├── docs
 ├── src
-│   ├── views
-│   │   └── sample.php
-│   ├── core
-│   │   └── application.php
-│   ├── models
-│   │   └── user.php
-│   ├── controllers
+│   ├── Core
+│   │   ├── Router.php
+│   │   └── Application.php
+│   ├── Controllers
 │   │   ├── sample.php
 │   │   └── user.php
+│   ├── Models
+│   │   └── user.php
+│   ├── Views
+│   │   └── sample.php
 │   └── helpers
 │       └── sample.php
 ├── composer.json
@@ -54,11 +56,12 @@ require __DIR__."/../vendor/autoload.php";
 
 
 use Sora\Core\Application;
+use Sora\Core\Router;
 use Sora\Controllers\UserController;
 use Sora\Controllers\HomeController;
 
-
-$app = new Sora\Models/User();
+$router = new Router();
+$app = new Application($router);
 
 $app->router->get('/', [HomeController::class, 'index']);
 $app->router->get('/login', [UserController::class, 'login']);
@@ -339,7 +342,79 @@ define("APPROOT", __DIR__."/../../public/");
 
 ```````
 
-`/home/ramees/progs/php/sora/src/core/application.php`:
+`/home/ramees/progs/php/sora/src/Core/Router.php`:
+
+```````php
+<?php 
+namespace Sora\Core;
+
+class Router {
+  protected $routes = [];
+
+/** route to get requests
+ *
+ * @param string $path              path to route for
+ * @param array| string $callback   array with the classname and the method
+ *                                  to call or a string containing the function name.
+ */
+  public function get($path, $callback){
+    $this->routes['GET'][$path] = $callback;
+
+  }
+
+
+  /** route to get requests
+   *
+   * @param string $path            path to route for.
+   * @param array|string $callback  array with the classname and the method
+   *                               to call or a string containing the function name.
+   *
+   */
+
+  public function post($path, $callback) {
+    $this->routes['POST'][$path] = $callback;
+
+  }
+
+  /**
+   * function to dispatch to the routes from the uri
+   *
+   *
+   */
+
+  public function dispatch(){
+    $method = $_SERVER['REQUEST_METHOD'];
+    $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+    if(substr($uri, -1) === '/'){
+      $uri = substr($uri, 0, -1);
+    }
+
+    if(isset($this->routes[$method][$uri])){
+      $callback = $this->routes[$method][$uri];
+
+      if(iscallable($callback)){
+        call_user_func($callback);
+
+      }else if(is_array($callback)){
+        $controller = new $callback[0]();
+        $method = $callback[1];
+        $controller->method();
+      }
+    }
+    else{
+      http_response_code(404);
+      echo "404 Not Found";
+    }
+
+
+  }
+
+}
+
+```````
+
+`/home/ramees/progs/php/sora/src/Core/Application.php`:
 
 ```````php
 <?php
@@ -350,8 +425,8 @@ class Application {
   public $router;
 
 
-  public function __construct(){
-    $router = new router();
+  public function __construct(Sora\Core\Router $router){
+    $this->router = $router;
   }
 
   public function run(){
@@ -362,11 +437,75 @@ class Application {
 
 ```````
 
-`/home/ramees/progs/php/sora/src/models/user.php`:
+`/home/ramees/progs/php/sora/src/Controllers/user.php`:
+
+```````php
+<?php
+
+namespace Sora\Controllers;
+require_once __DIR__ . "../../vendor/autoload.php";
+
+
+/** Controller class for User Model
+ *
+ */
+class userController {
+
+  /**@var Sora\Models\User $userModel user model object
+   */
+  private $userModel;
+  
+  /**Constructor for User Controller
+   */
+
+  public function __construct() {
+  /** @var mysqli $db object returned from Sora\Config\Database::get_connection()
+   */
+  $db = Sora\Config\Database::get_connection();
+  $this->userModel = new Sora\Models\User($db);
+
+    
+  }
+
+  public function logout() {
+    $_SESSION = array();
+    session_destroy();
+    header('Location: index.php');
+  }
+
+  public function isLoggedin(): bool{
+    return isset($_SESSION['user_id']);
+  }
+
+
+  public function register(): array {
+    $response =  $userModel->register($_POST);
+    if($respone['success'] === true) {
+      $_SESSION['username'] = $_POST['username'];
+      $_SESSION['user_id'] = $response['user']['id'];
+      header('Location: home.php');
+    }
+    else{
+      $errors = $response['error'];
+      include 'views/register.php';
+    }
+  }
+
+  public function login() {
+    $username = $_POST['username'];
+    $passwd = $_POST['password'];
+    $this->userModel->authenticate($username, $password);
+  }
+
+}
+
+```````
+
+`/home/ramees/progs/php/sora/src/Models/user.php`:
 
 ```````php
 <?php                                         
-namespace Sora\Models;
+// namespace Sora\Models;
 require_once __DIR__."../../vendor/autoload.php"; 
 /** User class for handling user-related operations                                       
  */
@@ -526,89 +665,6 @@ class User {
                                                                                       
                                                                                       
 ?>
-
-```````
-
-`/home/ramees/progs/php/sora/src/controllers/user.php`:
-
-```````php
-<?php
-
-namespace Sora\Controllers;
-require_once __DIR__ . "../../vendor/autoload.php";
-
-
-/** Controller class for User Model
- *
- */
-class userController {
-
-  /**@var Sora\Models\User $userModel user model object
-   */
-  private $userModel;
-  
-  /**Constructor for User Controller
-   */
-
-  public function __construct() {
-  /** @var mysqli $db object returned from Sora\Config\Database::get_connection()
-   */
-  $db = Sora\Config\Database::get_connection();
-  $this->userModel = new Sora\Models\User($db);
-
-    
-  }
-
-  public function logout() {
-    $_SESSION = array();
-    session_destroy();
-    header('Location: index.php');
-  }
-
-  public function isLoggedin(): bool{
-    return isset($_SESSION['user_id']);
-  }
-
-
-  public function register(): array {
-    $response =  $userModel->register($_POST);
-    if($respone['success'] === true) {
-      $_SESSION['username'] = $_POST['username'];
-      $_SESSION['user_id'] = $response['user']['id'];
-      header('Location: home.php');
-    }
-    else{
-      $errors = $response['error'];
-      include 'views/register.php';
-    }
-  }
-
-  public function login() {
-    $username = $_POST['username'];
-    $passwd = $_POST['password'];
-    $this->userModel->authenticate($username, $password);
-  }
-
-}
-
-```````
-
-`/home/ramees/progs/php/sora/composer.json`:
-
-```````json
-{   "name": "7h3cyb3rm0nk/sora",
-    "description": "Micro blogging Social media platfrom for cs department U.C College",
-    "type": "project",
-    "require-dev": {
-        "phpunit/phpunit": "^11"
-    },
-
-    "autoload": {
-        "psr-4": {
-            "Sora\\": "/src/"
-        }
-    }
-}
 
 ```````
 

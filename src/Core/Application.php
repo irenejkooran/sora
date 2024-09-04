@@ -6,7 +6,7 @@ class Application {
   public $router;
 
 
-  public function __construct(Sora\Core\Router $router){
+  public function __construct(Router $router){
     $this->router = $router;
   }
 

@@ -3,11 +3,12 @@ require __DIR__."/../vendor/autoload.php";
 
 
 use Sora\Core\Application;
+use Sora\Core\Router;
 use Sora\Controllers\UserController;
 use Sora\Controllers\HomeController;
 
-
-$app = new Application();
+$router = new Router();
+$app = new Application($router);
 
 $app->router->get('/', [HomeController::class, 'index']);
 $app->router->get('/login', [UserController::class, 'login']);

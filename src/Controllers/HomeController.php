@@ -6,6 +6,6 @@ class HomeController{
 
   
   public function hello(){
-    echo "hello world";
+    require "../src/Views/home.php";
   }
 }

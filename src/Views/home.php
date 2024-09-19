@@ -1,0 +1,13 @@
+<?=
+"<html>
+<head>
+<title>SORA</title>
+</head>
+<body>
+<div>
+SORA 
+</div>
+</body>
+</html>
+"
+?>

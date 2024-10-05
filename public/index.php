@@ -10,7 +10,7 @@ use Sora\Controllers\HomeController;
 $router = new Router();
 $app = new Application($router);
 
-$app->router->get('/', [HomeController::class, 'hello']);
+$app->router->get('/', [HomeController::class, 'home']);
 $app->router->get('/login', [UserController::class, 'login']);
 $app->router->post('/login', [UserController::class, 'login']);
 $app->router->get('/register', [UserController::class, 'register']);

@@ -41,7 +41,7 @@ class userController {
     if($respone['success'] === true) {
       $_SESSION['username'] = $_POST['username'];
       $_SESSION['user_id'] = $response['user']['id'];
-      header('Location: home.php');
+      header('Location: index.php');
     }
     else{
       $errors = $response['error'];
@@ -53,6 +53,8 @@ class userController {
     $username = $_POST['username'];
     $passwd = $_POST['password'];
     $this->userModel->authenticate($username, $password);
+    $_SESSION['username'] = $_POST['username'];
+    $_SESSION['user_id'] = $response['user']['id'];
   }
 
 }

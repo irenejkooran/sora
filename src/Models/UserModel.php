@@ -27,7 +27,8 @@ class User {
 		*             'success' (bool) - Whether the registration was successful.              
 		*             'error' (string[])  - Any error messages if registration failed.            
 		*/                                                                                     
-		public function register(array $data): array {              
+	
+	public function register(array $data): array {              
       $validatedResult = validateUserRegistration($data);
       if (!$validatedResult['isValid']) {
 				return [

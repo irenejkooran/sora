@@ -7,7 +7,7 @@ require_once __DIR__ . "../../vendor/autoload.php";
 /** Controller class for User Model
  *
  */
-class userController {
+class UserController {
 
   /**@var Sora\Models\User $userModel user model object
    */
@@ -20,7 +20,7 @@ class userController {
   /** @var mysqli $db object returned from Sora\Config\Database::get_connection()
    */
   $db = Sora\Config\Database::get_connection();
-  $this->userModel = new Sora\Models\User($db);
+  $this->userModel = new Sora\Models\UserModel($db);
 
     
   }

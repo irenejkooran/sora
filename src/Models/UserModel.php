@@ -4,7 +4,7 @@ require_once __DIR__."../../vendor/autoload.php";
 /** User class for handling user-related operations                                       
  */
 
-class User {  
+class UserModel {  
 
 		/** @var mysqli $db Database connection object */                                                  
 	  private $db;    

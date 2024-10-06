@@ -6,11 +6,11 @@ class HomeController{
 
   
   public function home(){
-    if (!isset($_SESSION['user_id'])){
-    require "../src/Views/home.php";
+    if (isset($_SESSION['user_id']) || 1){
+    require "../src/Views/home.html";
     }
     else{
-      require "../src/Views/login.php";
+      header("Location: /login");
     }
   }
 

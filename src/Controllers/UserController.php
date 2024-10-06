@@ -2,8 +2,9 @@
 
 namespace Sora\Controllers;
 use Sora\Config\Database;
-require_once __DIR__ . "/../../vendor/autoload.php";
-
+use Sora\Models\UserModel;
+// require_once __DIR__ . "/../../vendor/autoload.php";
+session_start();
 
 /** Controller class for User Model
  *
@@ -20,8 +21,15 @@ class UserController {
   public function __construct() {
   /** @var mysqli $db object returned from Sora\Config\Database::get_connection()
    */
+  try{
   $db = Database::getConnection();
-  $this->userModel = new Sora\Models\UserModel($db);
+  }
+  catch(Exception $e){
+    echo "error getting a database connection";
+    exit;
+  }
+
+  $this->userModel = new UserModel($db);
 
     
   }
@@ -29,7 +37,7 @@ class UserController {
   public function logout() {
     $_SESSION = array();
     session_destroy();
-    header('Location: index.php');
+    header('Location: /login');
   }
 
   public function isLoggedin(): bool{
@@ -38,8 +46,8 @@ class UserController {
 
 
   public function register(): array {
-    $response =  $userModel->register($_POST);
-    if($respone['success'] === true) {
+    $response =  $this->userModel->register($_POST);
+    if($response['success'] === true) {
       $_SESSION['username'] = $_POST['username'];
       $_SESSION['user_id'] = $response['user']['id'];
       header('Location: index.php');
@@ -53,15 +61,18 @@ class UserController {
   public function login() {
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $username = $_POST['username'];
-    $passwd = $_POST['password'];
-    $this->userModel->authenticate($username, $password);
+    $password = $_POST['password'];
+    $response = $this->userModel->authenticate($username, $password);
     $_SESSION['username'] = $_POST['username'];
     $_SESSION['user_id'] = $response['user']['id'];
+    header('Location: /');
     }
     else{
       include __DIR__."/../Views/login.html";
     }
   
   }
+
+  
 
 }

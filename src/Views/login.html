@@ -1,31 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="h-full overflow-hidden" lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login/Signup | SORA</title>
-    <link rel="stylesheet" href="scss/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+
+<body class="h-full bg-slate-600 text-slate-100">
     <header>
-        <nav  class="text-4xl">SORA</nav>
-    </header>   
-    <main>
-        <div class="main-card">
-            <div class="login-card">
-                <div class="login">
-                    <form action="/login" method="POST">
-                        <label for="username">username</label><br>
-                        <input type="text" name="username" id="username"><br>
-                         <label for="password">password</label><br>
-                         <input type="password" name="password" id="password"><br>
-                         <button type="submit">Log in</button>
+        <nav class="text-4xl">SORA</nav>
+    </header>
+    <main class="h-[100%]">
+        <div class="main-card flex gap-[7em] h-[70%] w-full justify-center items-center">
+            <div
+                class="login-card bg-slate-400 p-[2em] flex items-center justify-center rounded-md shadow-sm w-[20%] h-[50%]     ">
+                <div class="login w-[80%] text-2xl">
+                    <form class="flex flex-col w-100 justify-center gap-1" action="/login" method="POST">
+                        <label class="text-slate-900  font-semibold" for="username">username</label>
+                        <input class="rounded-md shadow-sm" type="text" name="username" id="username"><br>
+                        <label class="text-slate-900  font-semibold" for="password">password</label>
+                        <input class="rounded-md shadow-sm" type="password" name="password" id="password">
+
+                        <button class="p-2 bg-slate-900  text-xl rounded-md mt-3 w-[40%]" type="submit"
+                            name="submit">Log in</button>
                     </form>
                 </div>
             </div>
-            <div class="signup-card"></div>
+            <div class="signup-card ">
+                <div class="signup w-[80%] text-2xl">
+                    <form class="flex flex-col w-100 justify-center gap-1" action="/signup" method="POST">
+                        <label class="text-slate-900  font-semibold" for="username">username</label>
+                        <input class="rounded-md shadow-sm" type="text" name="username" id="singup-username"><br>
+                        <label class="text-slate-900  font-semibold" for="password">password</label>
+                        <input class="rounded-md shadow-sm" type="password" name="password" id="signup-password">
+
+                        <button class="p-2 bg-slate-900  text-xl rounded-md mt-3 w-[40%]" type="submit"
+                            name="submit">Log in</button>
+                    </form>
+                </div>
+            </div>
 
         </div>
     </main>
+
+    <script>
+        let login_card = document.querySelector(".login-card");
+        let signup_card = document.querySelector(".signup-card");
+
+        let styles_array = ["bg-slate-400", "p-[2em]", "flex", "items-center", "justify-center", "rounded-md", "shadow-sm", "w-[20%]", "h-[50%]"];
+       
+
+        login_card.addEventListener("mouseenter", () => {
+            login_card.classList.add(...styles_array);
+            signup_card.classList.remove(...styles_array);
+        });
+       
+
+        // Hover events for signup card
+        signup_card.addEventListener("mouseenter", () => {
+            signup_card.classList.add(...styles_array);
+            login_card.classList.remove(...styles_array);
+        });
+        
+    </script>
 </body>
+
 </html>

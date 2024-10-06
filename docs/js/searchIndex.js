@@ -21,40 +21,60 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/default.html#constant_APPROOT"
         },                {
-            "fqsen": "\\Sora\\Controllers\\userController",
-            "name": "userController",
-            "summary": "Controller\u0020class\u0020for\u0020User\u0020Model",
-            "url": "classes/Sora-Controllers-userController.html"
-        },                {
-            "fqsen": "\\Sora\\Controllers\\userController\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
+            "fqsen": "\\Sora\\Controllers\\HomeController",
+            "name": "HomeController",
             "summary": "",
-            "url": "classes/Sora-Controllers-userController.html#method___construct"
+            "url": "classes/Sora-Controllers-HomeController.html"
         },                {
-            "fqsen": "\\Sora\\Controllers\\userController\u003A\u003Alogout\u0028\u0029",
-            "name": "logout",
+            "fqsen": "\\Sora\\Controllers\\HomeController\u003A\u003Ahome\u0028\u0029",
+            "name": "home",
             "summary": "",
-            "url": "classes/Sora-Controllers-userController.html#method_logout"
+            "url": "classes/Sora-Controllers-HomeController.html#method_home"
         },                {
-            "fqsen": "\\Sora\\Controllers\\userController\u003A\u003AisLoggedin\u0028\u0029",
-            "name": "isLoggedin",
-            "summary": "",
-            "url": "classes/Sora-Controllers-userController.html#method_isLoggedin"
-        },                {
-            "fqsen": "\\Sora\\Controllers\\userController\u003A\u003Aregister\u0028\u0029",
-            "name": "register",
-            "summary": "",
-            "url": "classes/Sora-Controllers-userController.html#method_register"
-        },                {
-            "fqsen": "\\Sora\\Controllers\\userController\u003A\u003Alogin\u0028\u0029",
+            "fqsen": "\\Sora\\Controllers\\HomeController\u003A\u003Alogin\u0028\u0029",
             "name": "login",
             "summary": "",
-            "url": "classes/Sora-Controllers-userController.html#method_login"
+            "url": "classes/Sora-Controllers-HomeController.html#method_login"
         },                {
-            "fqsen": "\\Sora\\Controllers\\userController\u003A\u003A\u0024userModel",
+            "fqsen": "\\Sora\\Controllers\\HomeController\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "",
+            "url": "classes/Sora-Controllers-HomeController.html#method_register"
+        },                {
+            "fqsen": "\\Sora\\Controllers\\UserController",
+            "name": "UserController",
+            "summary": "Controller\u0020class\u0020for\u0020User\u0020Model",
+            "url": "classes/Sora-Controllers-UserController.html"
+        },                {
+            "fqsen": "\\Sora\\Controllers\\UserController\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Sora-Controllers-UserController.html#method___construct"
+        },                {
+            "fqsen": "\\Sora\\Controllers\\UserController\u003A\u003Alogout\u0028\u0029",
+            "name": "logout",
+            "summary": "",
+            "url": "classes/Sora-Controllers-UserController.html#method_logout"
+        },                {
+            "fqsen": "\\Sora\\Controllers\\UserController\u003A\u003AisLoggedin\u0028\u0029",
+            "name": "isLoggedin",
+            "summary": "",
+            "url": "classes/Sora-Controllers-UserController.html#method_isLoggedin"
+        },                {
+            "fqsen": "\\Sora\\Controllers\\UserController\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "",
+            "url": "classes/Sora-Controllers-UserController.html#method_register"
+        },                {
+            "fqsen": "\\Sora\\Controllers\\UserController\u003A\u003Alogin\u0028\u0029",
+            "name": "login",
+            "summary": "",
+            "url": "classes/Sora-Controllers-UserController.html#method_login"
+        },                {
+            "fqsen": "\\Sora\\Controllers\\UserController\u003A\u003A\u0024userModel",
             "name": "userModel",
             "summary": "",
-            "url": "classes/Sora-Controllers-userController.html#property_userModel"
+            "url": "classes/Sora-Controllers-UserController.html#property_userModel"
         },                {
             "fqsen": "\\Sora\\Core\\Application",
             "name": "Application",
@@ -101,40 +121,45 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Sora-Core-Router.html#property_routes"
         },                {
-            "fqsen": "\\User",
-            "name": "User",
-            "summary": "User\u0020class\u0020for\u0020handling\u0020user\u002Drelated\u0020operations",
-            "url": "classes/User.html"
+            "fqsen": "\\Sora\\Models\\test_input\u0028\u0029",
+            "name": "test_input",
+            "summary": "",
+            "url": "namespaces/sora-models.html#function_test_input"
         },                {
-            "fqsen": "\\User\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Sora\\Models\\UserModel",
+            "name": "UserModel",
+            "summary": "User\u0020class\u0020for\u0020handling\u0020user\u002Drelated\u0020operations",
+            "url": "classes/Sora-Models-UserModel.html"
+        },                {
+            "fqsen": "\\Sora\\Models\\UserModel\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "Constructor\u0020for\u0020User\u0020Class",
-            "url": "classes/User.html#method___construct"
+            "url": "classes/Sora-Models-UserModel.html#method___construct"
         },                {
-            "fqsen": "\\User\u003A\u003Aregister\u0028\u0029",
+            "fqsen": "\\Sora\\Models\\UserModel\u003A\u003Aregister\u0028\u0029",
             "name": "register",
             "summary": "Register\u0020a\u0020new\u0020user",
-            "url": "classes/User.html#method_register"
+            "url": "classes/Sora-Models-UserModel.html#method_register"
         },                {
-            "fqsen": "\\User\u003A\u003Aauthenticate\u0028\u0029",
+            "fqsen": "\\Sora\\Models\\UserModel\u003A\u003Aauthenticate\u0028\u0029",
             "name": "authenticate",
             "summary": "Authenticate\u0020a\u0020user",
-            "url": "classes/User.html#method_authenticate"
+            "url": "classes/Sora-Models-UserModel.html#method_authenticate"
         },                {
-            "fqsen": "\\User\u003A\u003AfindUserByEmail\u0028\u0029",
+            "fqsen": "\\Sora\\Models\\UserModel\u003A\u003AfindUserByEmail\u0028\u0029",
             "name": "findUserByEmail",
             "summary": "Find\u0020a\u0020user\u0020by\u0020email\u0020address",
-            "url": "classes/User.html#method_findUserByEmail"
+            "url": "classes/Sora-Models-UserModel.html#method_findUserByEmail"
         },                {
-            "fqsen": "\\User\u003A\u003AvalidateUserRegistration\u0028\u0029",
+            "fqsen": "\\Sora\\Models\\UserModel\u003A\u003AvalidateUserRegistration\u0028\u0029",
             "name": "validateUserRegistration",
             "summary": "validate\u0020user\u0020registration\u0020data.",
-            "url": "classes/User.html#method_validateUserRegistration"
+            "url": "classes/Sora-Models-UserModel.html#method_validateUserRegistration"
         },                {
-            "fqsen": "\\User\u003A\u003A\u0024db",
+            "fqsen": "\\Sora\\Models\\UserModel\u003A\u003A\u0024db",
             "name": "db",
             "summary": "",
-            "url": "classes/User.html#property_db"
+            "url": "classes/Sora-Models-UserModel.html#property_db"
         },                {
             "fqsen": "\\ComposerAutoloaderInitea5d5493712a97cb62ed8f2393a8b1bd",
             "name": "ComposerAutoloaderInitea5d5493712a97cb62ed8f2393a8b1bd",
@@ -31545,6 +31570,11 @@ Search.appendIndex(
             "name": "Core",
             "summary": "",
             "url": "namespaces/sora-core.html"
+        },                {
+            "fqsen": "\\Sora\\Models",
+            "name": "Models",
+            "summary": "",
+            "url": "namespaces/sora-models.html"
         },                {
             "fqsen": "\\Composer\\Autoload",
             "name": "Autoload",

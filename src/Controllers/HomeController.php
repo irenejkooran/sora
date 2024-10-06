@@ -11,6 +11,7 @@ class HomeController{
     }
     else{
       header("Location: /login");
+      exit;
     }
   }
 

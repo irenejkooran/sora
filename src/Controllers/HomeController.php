@@ -6,7 +6,7 @@ class HomeController{
 
   
   public function home(){
-    if (isset($_SESSION['user_id']) || 1){
+    if (isset($_SESSION['user_id']) ){
     require "../src/Views/home.html";
     }
     else{
@@ -15,6 +15,7 @@ class HomeController{
   }
 
   public function login(){
+
     if($_SERVER['REQUEST_METHOD'] == "POST"){
       
     }

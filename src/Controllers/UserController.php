@@ -4,7 +4,7 @@ namespace Sora\Controllers;
 use Sora\Config\Database;
 use Sora\Models\UserModel;
 // require_once __DIR__ . "/../../vendor/autoload.php";
-session_start();
+// session_start();
 
 /** Controller class for User Model
  *
@@ -38,6 +38,7 @@ class UserController {
     $_SESSION = array();
     session_destroy();
     header('Location: /login');
+    exit;
   }
 
   public function isLoggedin(): bool{

@@ -1,7 +1,7 @@
 <?php 
 require __DIR__."/../vendor/autoload.php";
 
-
+session_start();
 use Sora\Core\Application;
 use Sora\Core\Router;
 use Sora\Controllers\UserController;

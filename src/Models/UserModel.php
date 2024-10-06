@@ -78,7 +78,7 @@ class UserModel {
 		*                 'message' (string) - Login status message. 
 		*                 'user'  (array) - user details.
 		*/                                                                                     
-		public function authenticate(string $username, string $password): ?array { 
+	public function authenticate(string $username, string $password): ?array { 
        $stmt = $this->db->prepare("SELECT id, username, password FROM users where username = ?");
        $stmt->bind_param("s", $username);     
  			 $stmt->execute();
@@ -120,8 +120,8 @@ class UserModel {
 		* @param string $email email address to search for                                     
 		* return string[]|null An array of user data if found, or null if not found.              
 		*/                                                                                     
-		public function findUserByEmail(string $email): array|null {                                               
-			$stmt = $this->db->prepare("select * from users where email=? limit 1"); 
+	public function findUserByEmail(string $email): array|null {                                               
+	  $stmt = $this->db->prepare("select * from users where email=? limit 1"); 
       $stmt->bind_param("s", $email);
       $stmt->execute();
       $result = $stmt->get_result();
@@ -149,6 +149,8 @@ class UserModel {
 			$firstName = $data['firstName'];
 			$lastName = $data['lastName'];
 			$password = $data['password'];
+
+			
 			return [
 				'isValid' => true,
 				'error' => null
@@ -156,7 +158,15 @@ class UserModel {
 
 		} 
 
-}                                                                                         
+}                   
+
+function test_input(string $data): string{
+	$data = trim($data);
+	$data = stripslashes($data);
+	$data = htmlspecialchars($data);
+	return $data;
+
+}
                                                                                       
                                                                                       
 ?>

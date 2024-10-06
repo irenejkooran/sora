@@ -1,7 +1,8 @@
 <?php
 
 namespace Sora\Controllers;
-require_once __DIR__ . "../../vendor/autoload.php";
+use Sora\Config\Database;
+require_once __DIR__ . "/../../vendor/autoload.php";
 
 
 /** Controller class for User Model
@@ -19,7 +20,7 @@ class UserController {
   public function __construct() {
   /** @var mysqli $db object returned from Sora\Config\Database::get_connection()
    */
-  $db = Sora\Config\Database::get_connection();
+  $db = Database::getConnection();
   $this->userModel = new Sora\Models\UserModel($db);
 
     
@@ -50,11 +51,17 @@ class UserController {
   }
 
   public function login() {
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $username = $_POST['username'];
     $passwd = $_POST['password'];
     $this->userModel->authenticate($username, $password);
     $_SESSION['username'] = $_POST['username'];
     $_SESSION['user_id'] = $response['user']['id'];
+    }
+    else{
+      include __DIR__."/../Views/login.html";
+    }
+  
   }
 
 }

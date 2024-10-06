@@ -11,7 +11,7 @@ $router = new Router();
 $app = new Application($router);
 
 $app->router->get('/', [HomeController::class, 'home']);
-$app->router->get('/login', [UserController::class, 'login']);
+$app->router->get('/login', [HomeController::class, 'login']);
 $app->router->post('/login', [UserController::class, 'login']);
 $app->router->get('/register', [UserController::class, 'register']);
 $app->router->post('/register', [UserController::class, 'register']);

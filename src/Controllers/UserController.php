@@ -51,11 +51,14 @@ class UserController {
     if($response['success'] === true) {
       $_SESSION['username'] = $_POST['username'];
       $_SESSION['user_id'] = $response['user']['id'];
-      header('Location: index.php');
+      header('Location: /');
+      exit;
     }
     else{
-      $errors = $response['error'];
-      include 'views/register.php';
+      $_SESSION['error'] = $response['error'];
+    
+      header('Location: /register');
+      exit;
     }
   }
 
@@ -64,7 +67,7 @@ class UserController {
     $username = $_POST['username'];
     $password = $_POST['password'];
     $response = $this->userModel->authenticate($username, $password);
-    $_SESSION['username'] = $_POST['username'];
+    $_SESSION['username'] = $response['user']['username'];
     $_SESSION['user_id'] = $response['user']['id'];
     header('Location: /');
     }

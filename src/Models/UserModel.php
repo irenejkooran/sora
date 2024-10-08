@@ -44,6 +44,19 @@ class UserModel {
 			$password = $data['password'];
 			$hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
+
+			$stmt = $this->db->prepare("SELECT id FROM users WHERE username = ? or email = ?");
+			$stmt->bind_param("ss", $username, $email);
+			$stmt->execute();
+			$result = $stmt->get_result();
+			if($result->num_rows > 0){
+				return [
+					'success' => false,
+					'error' => ["USER ALREADY EXISTS"],
+					'user' => null,
+				];
+			}
+
 			$stmt = $this->db->prepare("insert into users(firstname, lastname, username, email, password) 
 				                          values(?,?,?,?,?)");
 			$stmt->bind_param("sssss", $firstName, $lastName, $username, $email, $hashed_password);
@@ -79,8 +92,8 @@ class UserModel {
 		*                 'user'  (array) - user details.
 		*/                                                                                     
 	public function authenticate(string $username, string $password): ?array { 
-       $stmt = $this->db->prepare("SELECT id, username, password FROM users where username = ?");
-       $stmt->bind_param("s", $username);     
+       $stmt = $this->db->prepare("SELECT id, username, password FROM users where username = ? or email = ?" );
+       $stmt->bind_param("ss", $username,$username);     
  			 $stmt->execute();
  			 $result = $stmt->get_result();
 

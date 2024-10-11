@@ -29,7 +29,7 @@ class UserModel {
 		*/                                                                                     
 	
 	public function register(array $data): array {              
-      $validatedResult = $this->validateUserRegistration($data);
+      $validatedResult = $this->validate_user_registration($data);
       if (!$validatedResult['isValid']) {
 				return [
 					'success' => 'false',
@@ -133,7 +133,7 @@ class UserModel {
 		* @param string $email email address to search for                                     
 		* return string[]|null An array of user data if found, or null if not found.              
 		*/                                                                                     
-	public function findUserByEmail(string $email): array|null {                                               
+	public function find_user_by_email(string $email): array|null {                                               
 	  $stmt = $this->db->prepare("select * from users where email=? limit 1"); 
       $stmt->bind_param("s", $email);
       $stmt->execute();
@@ -157,7 +157,7 @@ class UserModel {
 		*               'isValid' (bool) - Whether the data is valid.                          
 		*                'error' (?array) - Any validation error messages.                      
 		*/                                                                                     
-	private function validateUserRegistration(array $data): array {                                
+	private function validate_user_registration(array $data): array {                                
 			$username = $data['username'];
 			$firstName = $data['first_name'];
 			$lastName = $data['last_name'];

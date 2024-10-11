@@ -5,7 +5,7 @@
 namespace Sora\Config;
 /** Database class to return a database object */
 class Database {
-      public static function getConnection(): \mysqli {
+      public static function get_connection(): \mysqli {
 
         $env = parse_ini_file(__DIR__."/.env");
         $username = $env['USERNAME'];

@@ -22,7 +22,7 @@ class UserController {
   /** @var mysqli $db object returned from Sora\Config\Database::get_connection()
    */
   try{
-  $db = Database::getConnection();
+  $db = Database::get_connection();
   }
   catch(Exception $e){
     echo "error getting a database connection";
@@ -41,7 +41,7 @@ class UserController {
     exit;
   }
 
-  public function isLoggedin(): bool{
+  public function is_logged_in(): bool{
     return isset($_SESSION['user_id']);
   }
 

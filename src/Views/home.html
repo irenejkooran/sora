@@ -62,29 +62,18 @@
                 <h1 class="text-2xl font-bold mb-4 text-sora-primary">Tweets</h1>
                 <div class="space-y-4">
                     <!-- Tweet cards (repeated for each tweet) -->
-                    <div class="bg-white p-4 rounded-lg shadow hover:shadow-md transition duration-300">
-                        <div class="flex items-center mb-2">
-                            <img src="/api/placeholder/40/40" alt="User 1" class="w-10 h-10 rounded-full mr-3">
-                            <p class="font-bold text-sora-secondary">@user1</p>
-                        </div>
-                        <p class="mb-3">This is a sample tweet with some interesting content.</p>
-                        <div class="flex items-center space-x-4 text-gray-500">
-                            <button class="flex items-center space-x-1 hover:text-blue-500 transition duration-300">
-                                <i class="fas fa-arrow-up"></i>
-                                <span>10</span>
-                            </button>
-                            <button class="flex items-center space-x-1 hover:text-red-500 transition duration-300">
-                                <i class="fas fa-arrow-down"></i>
-                                <span>2</span>
-                            </button>
-                            <button class="flex items-center space-x-1 hover:text-green-500 transition duration-300">
-                                <i class="fas fa-comment"></i>
-                                <span>5 comments</span>
-                            </button>
-                        </div>
-                    </div>
+                    
 
                     <?php
+                    use Sora\Controllers\PostController;
+                    $html = PostController::render_tweet("ramees", "Hello guyss", "12 hours ago", 12, 0,  "https://i.pravatar.cc/300");
+                    echo $html;
+                    $html = PostController::render_tweet("batman", "Tell me!, Do you bleed?!!", "12 hours ago", 12, 0,  "https://i.pravatar.cc/300");
+                    echo $html;
+                    $html = PostController::render_tweet("rasheedIkka", "Porottem iracheem:)", "12 hours ago", 12, 0,  "https://i.pravatar.cc/300");
+                    echo $html;
+                    $html = PostController::render_tweet("unnikkannan", "Nenacha vandeel keriitt shyee angene allaa...", "12 hours ago", 12, 0,  "https://i.pravatar.cc/300");
+                    echo $html;
                     ?>
 
                     <!-- Repeat the above div for each tweet -->

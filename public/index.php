@@ -1,5 +1,11 @@
 <?php 
 require __DIR__."/../vendor/autoload.php";
+ini_set('session.cookie_httponly', 1); 
+ini_set('session.cookie_secure', 1); 
+ini_set('session.use_strict_mode', 1); // Prevents session fixation in some cases
+ini_set('session.gc_maxlifetime', 1800);
+
+
 
 session_start();
 use Sora\Core\Application;

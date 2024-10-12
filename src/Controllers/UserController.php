@@ -64,12 +64,21 @@ class UserController {
 
   public function login() {
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $username = $_POST['username'];
+    $username = htmlspecialchars($_POST['username']);
     $password = $_POST['password'];
     $response = $this->userModel->authenticate($username, $password);
+
+    if (!$response['success']){
+      $_SESSION['login_error'] = ["Username/Password incorrect"];
+      header("Location: /login");
+      exit;
+    }
+    session_regenerate_id(true);
     $_SESSION['username'] = $response['user']['username'];
     $_SESSION['user_id'] = $response['user']['id'];
+    
     header('Location: /');
+    exit;
     }
     else{
       include __DIR__."/../Views/login.html";

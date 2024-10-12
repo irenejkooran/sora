@@ -21,11 +21,20 @@ class PostController {
         if ($_SERVER['REQUEST_METHOD'] == "POST"){
             $user_id = $_SESSION['user_id'];
             $content = $_POST['content'];
-            if($this->postModel->create_post($user_id, $content)){
-                header("Location: /");
+            
+            if($_SESSION['csrf_token'] !== $_POST['csrf_token']){
+                unset($_SESSION['csrf_token']);
+                http_response_code(400);
                 exit;
-            } else{
-                $error[] = "Error creating post";
+            }
+            else{
+                unset($_SESSION['csrf_token']);
+                if($this->postModel->create_post($user_id, $content)){
+                   header("Location: /");
+                   exit;
+                } else{
+                    $error[] = "Error creating post";
+                }
             }
         }
         else{

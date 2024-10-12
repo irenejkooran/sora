@@ -84,117 +84,9 @@
                         </div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-lg shadow hover:shadow-md transition duration-300">
-                        <div class="flex items-center mb-2">
-                            <img src="/api/placeholder/40/40" alt="User 1" class="w-10 h-10 rounded-full mr-3">
-                            <p class="font-bold text-sora-secondary">@user1</p>
-                        </div>
-                        <p class="mb-3">This is a sample tweet with some interesting content.</p>
-                        <div class="flex items-center space-x-4 text-gray-500">
-                            <button class="flex items-center space-x-1 hover:text-blue-500 transition duration-300">
-                                <i class="fas fa-arrow-up"></i>
-                                <span>10</span>
-                            </button>
-                            <button class="flex items-center space-x-1 hover:text-red-500 transition duration-300">
-                                <i class="fas fa-arrow-down"></i>
-                                <span>2</span>
-                            </button>
-                            <button class="flex items-center space-x-1 hover:text-green-500 transition duration-300">
-                                <i class="fas fa-comment"></i>
-                                <span>5 comments</span>
-                            </button>
-                        </div>
-                    </div>
+                    <?php
+                    ?>
 
-                    <div class="bg-white p-4 rounded-lg shadow hover:shadow-md transition duration-300">
-                        <div class="flex items-center mb-2">
-                            <img src="/api/placeholder/40/40" alt="User 1" class="w-10 h-10 rounded-full mr-3">
-                            <p class="font-bold text-sora-secondary">@user1</p>
-                        </div>
-                        <p class="mb-3">This is a sample tweet with some interesting content.</p>
-                        <div class="flex items-center space-x-4 text-gray-500">
-                            <button class="flex items-center space-x-1 hover:text-blue-500 transition duration-300">
-                                <i class="fas fa-arrow-up"></i>
-                                <span>10</span>
-                            </button>
-                            <button class="flex items-center space-x-1 hover:text-red-500 transition duration-300">
-                                <i class="fas fa-arrow-down"></i>
-                                <span>2</span>
-                            </button>
-                            <button class="flex items-center space-x-1 hover:text-green-500 transition duration-300">
-                                <i class="fas fa-comment"></i>
-                                <span>5 comments</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="bg-white p-4 rounded-lg shadow hover:shadow-md transition duration-300">
-                        <div class="flex items-center mb-2">
-                            <img src="/api/placeholder/40/40" alt="User 1" class="w-10 h-10 rounded-full mr-3">
-                            <p class="font-bold text-sora-secondary">@user1</p>
-                        </div>
-                        <p class="mb-3">This is a sample tweet with some interesting content.</p>
-                        <div class="flex items-center space-x-4 text-gray-500">
-                            <button class="flex items-center space-x-1 hover:text-blue-500 transition duration-300">
-                                <i class="fas fa-arrow-up"></i>
-                                <span>10</span>
-                            </button>
-                            <button class="flex items-center space-x-1 hover:text-red-500 transition duration-300">
-                                <i class="fas fa-arrow-down"></i>
-                                <span>2</span>
-                            </button>
-                            <button class="flex items-center space-x-1 hover:text-green-500 transition duration-300">
-                                <i class="fas fa-comment"></i>
-                                <span>5 comments</span>
-                            </button>
-                        </div>
-                    </div>
-
-
-                    <div class="bg-white p-4 rounded-lg shadow hover:shadow-md transition duration-300">
-                        <div class="flex items-center mb-2">
-                            <img src="/api/placeholder/40/40" alt="User 1" class="w-10 h-10 rounded-full mr-3">
-                            <p class="font-bold text-sora-secondary">@user1</p>
-                        </div>
-                        <p class="mb-3">This is a sample tweet with some interesting content.</p>
-                        <div class="flex items-center space-x-4 text-gray-500">
-                            <button class="flex items-center space-x-1 hover:text-blue-500 transition duration-300">
-                                <i class="fas fa-arrow-up"></i>
-                                <span>10</span>
-                            </button>
-                            <button class="flex items-center space-x-1 hover:text-red-500 transition duration-300">
-                                <i class="fas fa-arrow-down"></i>
-                                <span>2</span>
-                            </button>
-                            <button class="flex items-center space-x-1 hover:text-green-500 transition duration-300">
-                                <i class="fas fa-comment"></i>
-                                <span>5 comments</span>
-                            </button>
-                        </div>
-                    </div>
-
-
-                    <div class="bg-white p-4 rounded-lg shadow hover:shadow-md transition duration-300">
-                        <div class="flex items-center mb-2">
-                            <img src="/api/placeholder/40/40" alt="User 1" class="w-10 h-10 rounded-full mr-3">
-                            <p class="font-bold text-sora-secondary">@user1</p>
-                        </div>
-                        <p class="mb-3">This is a sample tweet with some interesting content.</p>
-                        <div class="flex items-center space-x-4 text-gray-500">
-                            <button class="flex items-center space-x-1 hover:text-blue-500 transition duration-300">
-                                <i class="fas fa-arrow-up"></i>
-                                <span>10</span>
-                            </button>
-                            <button class="flex items-center space-x-1 hover:text-red-500 transition duration-300">
-                                <i class="fas fa-arrow-down"></i>
-                                <span>2</span>
-                            </button>
-                            <button class="flex items-center space-x-1 hover:text-green-500 transition duration-300">
-                                <i class="fas fa-comment"></i>
-                                <span>5 comments</span>
-                            </button>
-                        </div>
-                    </div>
                     <!-- Repeat the above div for each tweet -->
                 </div>
             </section>
@@ -212,6 +104,11 @@
                                 </button> -->
                             </div>
                         </div>
+                        <!-- csrf protection -->
+                        <?php use Sora\Helpers\Helper;
+                        $_SESSION['csrf_token'] = Helper::generate_token()
+                         ?>
+                        <input type="hidden" name="csrf_token" value=<?=$_SESSION['csrf_token'] ?>>
                         <button name="post-btn" class="bg-sora-bg text-sora-primary py-2 px-6 rounded-full hover:bg-white hover:text-sora-secondary transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-sora-bg">
                             <i class="fas fa-paper-plane mr-2"></i>Post
                         </button>

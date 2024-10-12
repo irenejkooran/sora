@@ -17,4 +17,22 @@ class PostModel{
         return $stmt->execute();
 
     }
+
+    public function view_posts(): array{
+        $stmt = $this->db->prepare("Select * from posts");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if($result->num_rows > 0){
+            $data = $result->fetch_all(MYSQLI_ASSOC);
+            return $data;
+
+        }
+        else {
+            return [
+                'error' => 'NO_RESULT'  
+            ];
+        }
+    }
+
+    
 }

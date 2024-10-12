@@ -7,6 +7,7 @@ use Sora\Core\Router;
 use Sora\Controllers\UserController;
 use Sora\Controllers\HomeController;
 use Sora\Controllers\PostController;
+use Sora\Helpers\Helper;
 $router = new Router();
 $app = new Application($router);
 

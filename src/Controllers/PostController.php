@@ -3,6 +3,7 @@ namespace Sora\Controllers;
 
 use \Sora\Models\PostModel;
 use \Sora\Config\Database;
+use \Sora\Helpers\Helper;
 
 
 class PostController {
@@ -15,6 +16,8 @@ class PostController {
     }
 
     public function create(){
+        Helper::validate_user();
+
         if ($_SERVER['REQUEST_METHOD'] == "POST"){
             $user_id = $_SESSION['user_id'];
             $content = $_POST['content'];
@@ -30,3 +33,5 @@ class PostController {
         }
     }
 }
+
+?>

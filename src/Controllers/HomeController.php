@@ -1,23 +1,24 @@
 <?php 
 namespace Sora\Controllers;
+use \Sora\Helpers\Helper;
 
 class HomeController{
   
 
   
   public function home(){
-    if (isset($_SESSION['user_id']) ){
+
+    Helper::validate_user();
+    
     require "../src/Views/home.html";
-    }
-    else{
-      header("Location: /login");
-      exit;
-    }
+    
+    
   }
 
   public function login(){
 
     if($_SERVER['REQUEST_METHOD'] == "POST"){
+      $this->home();
       
     }
     else{

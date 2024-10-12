@@ -6,10 +6,10 @@ Search.appendIndex(
             "summary": "Database\u0020class\u0020to\u0020return\u0020a\u0020database\u0020object",
             "url": "classes/Sora-Config-Database.html"
         },                {
-            "fqsen": "\\Sora\\Config\\Database\u003A\u003AgetConnection\u0028\u0029",
-            "name": "getConnection",
+            "fqsen": "\\Sora\\Config\\Database\u003A\u003Aget_connection\u0028\u0029",
+            "name": "get_connection",
             "summary": "",
-            "url": "classes/Sora-Config-Database.html#method_getConnection"
+            "url": "classes/Sora-Config-Database.html#method_get_connection"
         },                {
             "fqsen": "\\ROOT",
             "name": "ROOT",
@@ -41,6 +41,26 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Sora-Controllers-HomeController.html#method_register"
         },                {
+            "fqsen": "\\Sora\\Controllers\\PostController",
+            "name": "PostController",
+            "summary": "",
+            "url": "classes/Sora-Controllers-PostController.html"
+        },                {
+            "fqsen": "\\Sora\\Controllers\\PostController\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Sora-Controllers-PostController.html#method___construct"
+        },                {
+            "fqsen": "\\Sora\\Controllers\\PostController\u003A\u003Acreate\u0028\u0029",
+            "name": "create",
+            "summary": "",
+            "url": "classes/Sora-Controllers-PostController.html#method_create"
+        },                {
+            "fqsen": "\\Sora\\Controllers\\PostController\u003A\u003A\u0024postModel",
+            "name": "postModel",
+            "summary": "",
+            "url": "classes/Sora-Controllers-PostController.html#property_postModel"
+        },                {
             "fqsen": "\\Sora\\Controllers\\UserController",
             "name": "UserController",
             "summary": "Controller\u0020class\u0020for\u0020User\u0020Model",
@@ -56,10 +76,10 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Sora-Controllers-UserController.html#method_logout"
         },                {
-            "fqsen": "\\Sora\\Controllers\\UserController\u003A\u003AisLoggedin\u0028\u0029",
-            "name": "isLoggedin",
+            "fqsen": "\\Sora\\Controllers\\UserController\u003A\u003Ais_logged_in\u0028\u0029",
+            "name": "is_logged_in",
             "summary": "",
-            "url": "classes/Sora-Controllers-UserController.html#method_isLoggedin"
+            "url": "classes/Sora-Controllers-UserController.html#method_is_logged_in"
         },                {
             "fqsen": "\\Sora\\Controllers\\UserController\u003A\u003Aregister\u0028\u0029",
             "name": "register",
@@ -121,6 +141,31 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Sora-Core-Router.html#property_routes"
         },                {
+            "fqsen": "\\Sora\\Models\\PostModel",
+            "name": "PostModel",
+            "summary": "",
+            "url": "classes/Sora-Models-PostModel.html"
+        },                {
+            "fqsen": "\\Sora\\Models\\PostModel\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Sora-Models-PostModel.html#method___construct"
+        },                {
+            "fqsen": "\\Sora\\Models\\PostModel\u003A\u003Acreate_post\u0028\u0029",
+            "name": "create_post",
+            "summary": "",
+            "url": "classes/Sora-Models-PostModel.html#method_create_post"
+        },                {
+            "fqsen": "\\Sora\\Models\\PostModel\u003A\u003Aview_posts\u0028\u0029",
+            "name": "view_posts",
+            "summary": "",
+            "url": "classes/Sora-Models-PostModel.html#method_view_posts"
+        },                {
+            "fqsen": "\\Sora\\Models\\PostModel\u003A\u003A\u0024db",
+            "name": "db",
+            "summary": "",
+            "url": "classes/Sora-Models-PostModel.html#property_db"
+        },                {
             "fqsen": "\\Sora\\Models\\test_input\u0028\u0029",
             "name": "test_input",
             "summary": "",
@@ -146,15 +191,15 @@ Search.appendIndex(
             "summary": "Authenticate\u0020a\u0020user",
             "url": "classes/Sora-Models-UserModel.html#method_authenticate"
         },                {
-            "fqsen": "\\Sora\\Models\\UserModel\u003A\u003AfindUserByEmail\u0028\u0029",
-            "name": "findUserByEmail",
+            "fqsen": "\\Sora\\Models\\UserModel\u003A\u003Afind_user_by_email\u0028\u0029",
+            "name": "find_user_by_email",
             "summary": "Find\u0020a\u0020user\u0020by\u0020email\u0020address",
-            "url": "classes/Sora-Models-UserModel.html#method_findUserByEmail"
+            "url": "classes/Sora-Models-UserModel.html#method_find_user_by_email"
         },                {
-            "fqsen": "\\Sora\\Models\\UserModel\u003A\u003AvalidateUserRegistration\u0028\u0029",
-            "name": "validateUserRegistration",
+            "fqsen": "\\Sora\\Models\\UserModel\u003A\u003Avalidate_user_registration\u0028\u0029",
+            "name": "validate_user_registration",
             "summary": "validate\u0020user\u0020registration\u0020data.",
-            "url": "classes/Sora-Models-UserModel.html#method_validateUserRegistration"
+            "url": "classes/Sora-Models-UserModel.html#method_validate_user_registration"
         },                {
             "fqsen": "\\Sora\\Models\\UserModel\u003A\u003A\u0024db",
             "name": "db",

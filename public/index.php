@@ -6,7 +6,7 @@ use Sora\Core\Application;
 use Sora\Core\Router;
 use Sora\Controllers\UserController;
 use Sora\Controllers\HomeController;
-
+use Sora\Controllers\PostController;
 $router = new Router();
 $app = new Application($router);
 
@@ -16,6 +16,8 @@ $app->router->post('/login', [UserController::class, 'login']);
 $app->router->get('/register', [HomeController::class, 'register']);
 $app->router->post('/register', [UserController::class, 'register']);
 $app->router->get('/logout', [UserController::class, 'logout']);
+
+$app->router->post('/create', [PostController::class, 'create']);
 
 $app->run();
 

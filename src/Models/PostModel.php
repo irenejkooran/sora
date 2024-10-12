@@ -8,10 +8,11 @@ class PostModel{
 
     }
 
-    public function createPost($user_id, $content): bool{
+    public function create_post($user_id, $content): bool{
 
         
-        $stmt =  "INSERT INTO posts (user_id, content) VALUES (?, ?)";
+        $stmt =  $this->db->prepare("INSERT INTO posts (user_id, content) VALUES (?, ?)");
+
         $stmt->bind_param("is", $user_id, $content);
         return $stmt->execute();
 

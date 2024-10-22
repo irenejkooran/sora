@@ -25,7 +25,7 @@ $app->router->post('/register', [UserController::class, 'register']);
 $app->router->get('/logout', [UserController::class, 'logout']);
 
 $app->router->post('/create', [PostController::class, 'create']);
-echo "test"
+echo "i am irene"
 $app->run();
 
 
